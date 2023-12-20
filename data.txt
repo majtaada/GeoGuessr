@@ -1,0 +1,3 @@
+https://www.kaggle.com/datasets/adityakishor1/all-countries-details
+https://www.kaggle.com/datasets/fernandol/countries-of-the-world
+https://www.gigasheet.com/sample-data/global-country-information-dataset-2023-283f8
