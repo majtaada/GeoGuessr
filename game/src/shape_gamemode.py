@@ -1,0 +1,2 @@
+class ShapeGamemode:
+    pass
