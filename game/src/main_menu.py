@@ -2,7 +2,7 @@ import pygame
 import sys
 from game.src.highscore_button import HighScoreButton
 from game.src.play_button import PlayButton
-from game.src.game_modes import GameModes
+from game.src.nickname_getter import GameModes
 from resources.constants import Constants
 
 

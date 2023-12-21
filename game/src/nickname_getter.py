@@ -67,13 +67,11 @@ class GameModes:
 
     def run(self, mode):
         self.mode = mode
+        print(mode)
         self.data = self.data_handler.get_data(mode)
+        print(len(self.data))
         self.get_nick()
         gamelogic = GameLogic(self.ui, self.data, self.mode)
         gamelogic.run()
-
-    def draw(self):
-        self.ui.draw_background()
-        self.draw_buttons()
 
 

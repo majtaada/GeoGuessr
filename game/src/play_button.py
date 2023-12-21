@@ -1,11 +1,10 @@
 import pygame
 import sys
-from game.src.game_modes import GameModes
+from game.src.nickname_getter import GameModes
 from resources.constants import Constants
 
 
 class PlayButton:
-
     def __init__(self, ui):
         self.ui = ui
         self.cst = Constants()
@@ -20,14 +19,13 @@ class PlayButton:
             pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 400, self.cst.MENU_BUTTON_WIDTH,
                         self.cst.MENU_BUTTON_HEIGHT)]
         self.game_modes = GameModes(ui)
-
+        self.modes = ["flags", "capital", "shapes", "all_in_one"]
     def run(self):
-        modes = ["flags", "capital", "shapes", "all_in_one"]
         while True:
             mode = self.handle_events()
             if mode == "main_menu":
                 return
-            if mode in modes and mode is not None:
+            if mode is not None:
                 self.game_modes.run(mode)
             self.draw()
             self.ui.clock.tick(60)
@@ -49,11 +47,11 @@ class PlayButton:
 
                 if self.ui.width / 2 - 100 <= mouse[0] <= self.ui.width / 2 + 100 and self.ui.height / 5 + 100 <= mouse[
                     1] <= self.ui.height / 5 + 180:
-                    return "capitals"
+                    return "capital"
 
                 if self.ui.width / 2 - 100 <= mouse[0] <= self.ui.width / 2 + 100 and self.ui.height / 5 + 200 <= mouse[
                     1] <= self.ui.height / 5 + 280:
-                    return "country_shapes"
+                    return "shapes"
 
                 if self.ui.width / 2 - 100 <= mouse[0] <= self.ui.width / 2 + 100 and self.ui.height / 5 + 300 <= mouse[
                     1] <= self.ui.height / 5 + 380:
