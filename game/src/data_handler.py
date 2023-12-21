@@ -47,18 +47,20 @@ class DataHandler:
 
     def __init__(self):
         self.data = pd.DataFrame()
-        self.flags = read_images("data/flags/")
-        self.shapes = read_images("data/shapes/128_img/")
+        self.flags = read_images("game/data/flags/")
+        self.shapes = read_images("game/data/country_shapes/128_img/")
+        self.create_data()
 
     def add_images_to_data(self):
-        self.data["flag"] = self.data["Abbreviation"].map(self.flags)
-        self.data["shape"] = self.data["Abbr"].map(self.shapes)
+        self.data["flags"] = self.data["abbreviation"].map(self.flags)
+        self.data["shape"] = self.data["abbreviation"].map(self.shapes)
 
     def create_data(self):
-        data1 = pd.read_csv('data/countries.csv')
-        data2 = pd.read_csv('data/countries2.csv')
+        data1 = pd.read_csv('game/data/countries.csv')
+        data2 = pd.read_csv('game/data/countries2.csv')
         data1['Abbreviation'] = data1["Abbreviation"].str.lower()
         data1 = data1[['Country', 'Population', 'Abbreviation']]
+        data2 = data2[['country', 'capital_city', 'region']]
         data2['country'] = data2['country'].replace(self.country_mapping)
         datamerged = pd.merge(data1, data2, left_on='Country', right_on='country', how='outer')
         datamerged = datamerged.drop('country', axis='columns')
@@ -73,11 +75,13 @@ class DataHandler:
         datamerged = datamerged.rename(
             columns={'Country': 'country', 'Population': 'population', 'Abbreviation': 'abbreviation',
                      'capital_city': 'capital'})
+        print(datamerged.columns)
         self.data = datamerged
+        self.add_images_to_data()
 
     def get_data(self, state):
         if state == "flags":
-            return self.data[["country", "flag"]]
+            return self.data[["country", "flags"]]
         if state == "capitals":
             return self.data[["country", "capital"]]
         if state == "country_shapes":

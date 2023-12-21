@@ -1,7 +1,7 @@
 import pygame
 import sys
 from game.src.game_modes import GameModes
-from game.src.application import Constants
+from resources.constants import Constants
 
 
 class PlayButton:
@@ -10,19 +10,19 @@ class PlayButton:
         self.ui = ui
         self.cst = Constants()
         self.button_rects = [
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 4, self.cst.BUTTON_WIDTH, self.cst.BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 4 + 100, self.cst.BUTTON_WIDTH,
-                        self.cst.BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 4 + 200, self.cst.BUTTON_WIDTH,
-                        self.cst.BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 4 + 300, self.cst.BUTTON_WIDTH,
-                        self.cst.BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 4 + 400, self.cst.BUTTON_WIDTH,
-                        self.cst.BUTTON_HEIGHT)]
+            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5, self.cst.MENU_BUTTON_WIDTH, self.cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 100, self.cst.MENU_BUTTON_WIDTH,
+                        self.cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 200, self.cst.MENU_BUTTON_WIDTH,
+                        self.cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 300, self.cst.MENU_BUTTON_WIDTH,
+                        self.cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 400, self.cst.MENU_BUTTON_WIDTH,
+                        self.cst.MENU_BUTTON_HEIGHT)]
         self.game_modes = GameModes(ui)
 
     def run(self):
-        modes = ["flags", "capitals", "country_shapes", "all_in_one"]
+        modes = ["flags", "capital", "shapes", "all_in_one"]
         while True:
             mode = self.handle_events()
             if mode == "main_menu":
