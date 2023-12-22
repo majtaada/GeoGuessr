@@ -9,14 +9,14 @@ class PlayButton:
         self.ui = ui
         self.cst = Constants()
         self.button_rects = [
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5, self.cst.MENU_BUTTON_WIDTH, self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 100, self.cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5, self.cst.MENU_BUTTON_WIDTH, self.cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 100, self.cst.MENU_BUTTON_WIDTH,
                         self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 200, self.cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 200, self.cst.MENU_BUTTON_WIDTH,
                         self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 300, self.cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 300, self.cst.MENU_BUTTON_WIDTH,
                         self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - 125, self.ui.height / 5 + 400, self.cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 400, self.cst.MENU_BUTTON_WIDTH,
                         self.cst.MENU_BUTTON_HEIGHT)]
         self.game_modes = GameModes(ui)
         self.modes = ["flags", "capital", "shapes", "all_in_one"]
@@ -63,22 +63,18 @@ class PlayButton:
 
     def draw_buttons(self):
         mouse = pygame.mouse.get_pos()
-        for rect in self.button_rects:
-            if rect.collidepoint(mouse):
-                pygame.draw.rect(self.ui.screen, self.cst.PRESSED_BUTTON_COLOR, rect)
-            else:
-                pygame.draw.rect(self.ui.screen, self.cst.DEFAULT_BUTTON_COLOR, rect)
-
-    def add_text_buttons(self):
         texts = ["Flags", "Capitals", "Country Shapes", "All in one", "Back"]
-
-        for i in range(len(texts)):
+        rects = self.button_rects
+        for i in range(len(self.button_rects)):
+            if rects[i].collidepoint(mouse):
+                pygame.draw.rect(self.ui.screen, self.cst.PRESSED_BUTTON_COLOR, rects[i])
+            else:
+                pygame.draw.rect(self.ui.screen, self.cst.DEFAULT_BUTTON_COLOR, rects[i])
             text = self.ui.font.render(texts[i], True, "#000000")
             text_rect = text.get_rect()
-            text_rect.center = (self.ui.width / 2, self.ui.height / 5 + 30 + 100 * i)
+            text_rect.center = rects[i].center
             self.ui.screen.blit(text, text_rect)
 
     def draw(self):
         self.ui.draw_background()
         self.draw_buttons()
-        self.add_text_buttons()

@@ -15,33 +15,29 @@ class MainMenu:
         self.width = self.ui.screen.get_width()
         self.height = self.ui.screen.get_height()
         self.button_rects = [
-            pygame.Rect(self.width / 2 - 125, self.height / 4, self.cst.MENU_BUTTON_WIDTH, self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.width / 2 - 125, self.height / 4 + 100, self.cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.width / 2 - 150, self.height / 4, self.cst.MENU_BUTTON_WIDTH, self.cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.width / 2 - 150, self.height / 4 + 100, self.cst.MENU_BUTTON_WIDTH,
                         self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.width / 2 - 125, self.height / 4 + 200, self.cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.width / 2 - 150, self.height / 4 + 200, self.cst.MENU_BUTTON_WIDTH,
                         self.cst.MENU_BUTTON_HEIGHT)]
 
     def draw_buttons(self):
         mouse = pygame.mouse.get_pos()
         rectangles = self.button_rects
-        for rectangle in rectangles:
-            if rectangle.collidepoint(mouse):
-                pygame.draw.rect(self.ui.screen, self.cst.PRESSED_BUTTON_COLOR, rectangle)
-            else:
-                pygame.draw.rect(self.ui.screen, self.cst.DEFAULT_BUTTON_COLOR, rectangle)
-
-    def add_text_buttons(self):
         texts = ["Play", "High Scores", "Quit"]
-        for i, t in enumerate(texts):
-            text = self.ui.font.render(t, True, "#000000")
+        for i in range(len(rectangles)):
+            if rectangles[i].collidepoint(mouse):
+                pygame.draw.rect(self.ui.screen, self.cst.PRESSED_BUTTON_COLOR, rectangles[i])
+            else:
+                pygame.draw.rect(self.ui.screen, self.cst.DEFAULT_BUTTON_COLOR, rectangles[i])
+            text = self.ui.font.render(texts[i], True, "#000000")
             text_rect = text.get_rect()
-            text_rect.center = (self.width / 2, self.height / 4 + 30 + i * 100)
+            text_rect.center = rectangles[i].center
             self.ui.screen.blit(text, text_rect)
 
     def draw(self):
         self.ui.draw_background()
         self.draw_buttons()
-        self.add_text_buttons()
 
     def handle_events(self):
         for event in pygame.event.get():

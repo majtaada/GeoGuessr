@@ -59,7 +59,7 @@ class DataHandler:
         data1 = pd.read_csv('game/data/countries.csv')
         data2 = pd.read_csv('game/data/countries2.csv')
         data1['Abbreviation'] = data1["Abbreviation"].str.lower()
-        data1 = data1[['Country', 'Population', 'Abbreviation']]
+        data1 = data1[['Country', 'Abbreviation']]
         data2 = data2[['country', 'capital_city', 'region']]
         data2['country'] = data2['country'].replace(self.country_mapping)
         datamerged = pd.merge(data1, data2, left_on='Country', right_on='country', how='outer')
@@ -69,9 +69,9 @@ class DataHandler:
         datamerged.loc[datamerged['Country'] == 'Vatican City', ['capital_city', 'region']] = datamerged.loc[
             datamerged['Country'] == 'Vatican City', ['capital_city', 'region']].fillna(
             value={'capital_city': 'Vatican City', 'region': 'Southern Europe'})
-        datamerged.loc[datamerged['Country'] == 'Palestinian National Authority', ['Population']] = datamerged.loc[
-            datamerged['Country'] == 'Palestinian National Authority', ['Population']].fillna(
-            value={'Population': 5429722})
+        # datamerged.loc[datamerged['Country'] == 'Palestinian National Authority', ['Population']] = datamerged.loc[
+        #     datamerged['Country'] == 'Palestinian National Authority', ['Population']].fillna(
+        #     value={'Population': 5429722})
         datamerged = datamerged.rename(
             columns={'Country': 'country', 'Population': 'population', 'Abbreviation': 'abbreviation',
                      'capital_city': 'capital'})
@@ -86,4 +86,4 @@ class DataHandler:
         if state == "shapes":
             return self.data[["country", "shapes"]].dropna()
         if state == "all_in_one":
-            return self.data.dropna()
+            return self.data[['country', 'capital', 'flags', 'shapes']].dropna()

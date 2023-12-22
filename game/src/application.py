@@ -23,7 +23,8 @@ class UI:
         self.logo = pygame.image.load('resources/logo.png')
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
-
+        self.gray_heart = pygame.image.load('resources/heart_gray.jpg')
+        self.gray_red = pygame.image.load('resources/heart_red.jpg')
     def draw_background(self):
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(self.logo, ((self.screen.get_width() - self.logo.get_width()) / 2, 0))
