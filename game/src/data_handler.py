@@ -78,6 +78,8 @@ class DataHandler:
         self.data = datamerged
         self.add_images_to_data()
 
+    def get_hint(self, country):
+        return self.data.loc[self.data['country'] == country, ['region']]
     def get_data(self, state):
         if state == "flags":
             return self.data[["country", "flags"]]

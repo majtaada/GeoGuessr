@@ -1,4 +1,6 @@
 class Constants:
+    image_path = "resources/"
+    data_path = "game/data/"
     DEFAULT_BUTTON_COLOR = "#90accc"
     PRESSED_BUTTON_COLOR = "#b4d7ff"
     MENU_BUTTON_WIDTH = 300
@@ -13,3 +15,7 @@ class Constants:
     QUESTION_BUTTON_WIDTH = 350
     QUESTION_BUTTON_HEIGHT = 90
     QUESTION_BUTTON_GAP_HEIGHT = 125
+    ARROW_WIDTH = 135
+    ARROW_HEIGHT = 89
+    BULB_WIDTH = 100
+    BULB_HEIGHT = 150
