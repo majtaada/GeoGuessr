@@ -1,23 +1,22 @@
 import pygame
 import sys
 from game.src.nickname_getter import GameModes
-from resources.constants import Constants
+import resources.constants as cst
 
 
 class PlayButton:
     def __init__(self, ui):
         self.ui = ui
-        self.cst = Constants()
         self.button_rects = [
-            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5, self.cst.MENU_BUTTON_WIDTH, self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 100, self.cst.MENU_BUTTON_WIDTH,
-                        self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 200, self.cst.MENU_BUTTON_WIDTH,
-                        self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 300, self.cst.MENU_BUTTON_WIDTH,
-                        self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - self.cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 400, self.cst.MENU_BUTTON_WIDTH,
-                        self.cst.MENU_BUTTON_HEIGHT)]
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5, cst.MENU_BUTTON_WIDTH, cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 100, cst.MENU_BUTTON_WIDTH,
+                        cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 200, cst.MENU_BUTTON_WIDTH,
+                        cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 300, cst.MENU_BUTTON_WIDTH,
+                        cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 400, cst.MENU_BUTTON_WIDTH,
+                        cst.MENU_BUTTON_HEIGHT)]
         self.game_modes = GameModes(ui)
         self.modes = ["flags", "capital", "shapes", "all_in_one"]
     def run(self):
@@ -67,9 +66,9 @@ class PlayButton:
         rects = self.button_rects
         for i in range(len(self.button_rects)):
             if rects[i].collidepoint(mouse):
-                pygame.draw.rect(self.ui.screen, self.cst.PRESSED_BUTTON_COLOR, rects[i])
+                pygame.draw.rect(self.ui.screen, cst.PRESSED_BUTTON_COLOR, rects[i])
             else:
-                pygame.draw.rect(self.ui.screen, self.cst.DEFAULT_BUTTON_COLOR, rects[i])
+                pygame.draw.rect(self.ui.screen, cst.DEFAULT_BUTTON_COLOR, rects[i])
             text = self.ui.font.render(texts[i], True, "#000000")
             text_rect = text.get_rect()
             text_rect.center = rects[i].center

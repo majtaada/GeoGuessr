@@ -2,26 +2,25 @@ import pygame
 import sys
 from game.src.data_handler import DataHandler
 from game.src.gamelogic import GameLogic
-from resources.constants import Constants
-import random
+import resources.constants as cst
 
 
 class GameModes:
 
     def __init__(self, ui):
+        self.nick = None
         self.options = None
         self.data = None
         self.mode = None
         self.ui = ui
-        self.cst = Constants()
-        self.text_background = pygame.Rect(self.ui.width / 2 - self.cst.TEXT_INPUT_WIDTH / 2,
-                                           self.ui.height / 2 - self.cst.TEXT_INPUT_HEIGHT / 2,
-                                           self.cst.TEXT_INPUT_WIDTH,
-                                           self.cst.TEXT_INPUT_HEIGHT)
+        self.text_background = pygame.Rect(self.ui.width / 2 - cst.TEXT_INPUT_WIDTH / 2,
+                                           self.ui.height / 2 - cst.TEXT_INPUT_HEIGHT / 2,
+                                           cst.TEXT_INPUT_WIDTH,
+                                           cst.TEXT_INPUT_HEIGHT)
         self.data_handler = DataHandler()
 
     def draw_rect(self, outline_color=(0, 0, 0), border=1):
-        fill_color = self.cst.DEFAULT_BUTTON_COLOR
+        fill_color = cst.DEFAULT_BUTTON_COLOR
         self.ui.screen.fill(outline_color, self.text_background)
         self.ui.screen.fill(fill_color, self.text_background.inflate(-border * 2, -border * 2))
 
@@ -65,13 +64,17 @@ class GameModes:
                 if len(nick) > 27:
                     nick = nick[:27]
 
+    def save_score(self, score):
+        with open("game/data/high_scores/high_scores.txt", "a") as file:
+            file.write(f"{self.mode} {self.nick} {score}\n")
+
     def run(self, mode):
         self.mode = mode
-        print(mode)
         self.data = self.data_handler.get_data(mode)
-        print(len(self.data))
-        self.get_nick()
+        print(self.data.isna().sum())
+        self.nick = self.get_nick()
         gamelogic = GameLogic(self.ui, self.data, self.mode)
         gamelogic.run()
+        self.save_score(gamelogic.get_score())
 
 

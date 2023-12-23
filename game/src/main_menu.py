@@ -3,7 +3,7 @@ import sys
 from game.src.highscore_button import HighScoreButton
 from game.src.play_button import PlayButton
 from game.src.nickname_getter import GameModes
-from resources.constants import Constants
+import resources.constants as cst
 
 
 class MainMenu:
@@ -11,15 +11,14 @@ class MainMenu:
     def __init__(self, ui):
         self.mode = None
         self.ui = ui
-        self.cst = Constants()
         self.width = self.ui.screen.get_width()
         self.height = self.ui.screen.get_height()
         self.button_rects = [
-            pygame.Rect(self.width / 2 - 150, self.height / 4, self.cst.MENU_BUTTON_WIDTH, self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.width / 2 - 150, self.height / 4 + 100, self.cst.MENU_BUTTON_WIDTH,
-                        self.cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.width / 2 - 150, self.height / 4 + 200, self.cst.MENU_BUTTON_WIDTH,
-                        self.cst.MENU_BUTTON_HEIGHT)]
+            pygame.Rect(self.width / 2 - 150, self.height / 4, cst.MENU_BUTTON_WIDTH, cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.width / 2 - 150, self.height / 4 + 100, cst.MENU_BUTTON_WIDTH,
+                        cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.width / 2 - 150, self.height / 4 + 200, cst.MENU_BUTTON_WIDTH,
+                        cst.MENU_BUTTON_HEIGHT)]
 
     def draw_buttons(self):
         mouse = pygame.mouse.get_pos()
@@ -27,9 +26,9 @@ class MainMenu:
         texts = ["Play", "High Scores", "Quit"]
         for i in range(len(rectangles)):
             if rectangles[i].collidepoint(mouse):
-                pygame.draw.rect(self.ui.screen, self.cst.PRESSED_BUTTON_COLOR, rectangles[i])
+                pygame.draw.rect(self.ui.screen, cst.PRESSED_BUTTON_COLOR, rectangles[i])
             else:
-                pygame.draw.rect(self.ui.screen, self.cst.DEFAULT_BUTTON_COLOR, rectangles[i])
+                pygame.draw.rect(self.ui.screen, cst.DEFAULT_BUTTON_COLOR, rectangles[i])
             text = self.ui.font.render(texts[i], True, "#000000")
             text_rect = text.get_rect()
             text_rect.center = rectangles[i].center

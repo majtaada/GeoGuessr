@@ -1,7 +1,7 @@
 import pandas as pd
 import pygame
 import os
-from resources.constants import Constants
+import resources.constants as cst
 
 
 def read_images(path):
@@ -49,7 +49,6 @@ class DataHandler:
         self.data = pd.DataFrame()
         self.flags = read_images("game/data/flags/")
         self.shapes = read_images("game/data/country_shapes/256_img/")
-        self.cst = Constants()
         self.create_data()
 
     def add_images_to_data(self):
@@ -70,9 +69,6 @@ class DataHandler:
         datamerged.loc[datamerged['Country'] == 'Vatican City', ['capital_city', 'region']] = datamerged.loc[
             datamerged['Country'] == 'Vatican City', ['capital_city', 'region']].fillna(
             value={'capital_city': 'Vatican City', 'region': 'Southern Europe'})
-        # datamerged.loc[datamerged['Country'] == 'Palestinian National Authority', ['Population']] = datamerged.loc[
-        #     datamerged['Country'] == 'Palestinian National Authority', ['Population']].fillna(
-        #     value={'Population': 5429722})
         datamerged = datamerged.rename(
             columns={'Country': 'country', 'Population': 'population', 'Abbreviation': 'abbreviation',
                      'capital_city': 'capital'})
@@ -92,6 +88,7 @@ class DataHandler:
         scale = scale.iloc[0][mode + '_scale']
         print(scale)
         return scale
+
     def read_scalers_jsons(self):
         scalers = {}
         for scaler in self.scalers:
@@ -106,7 +103,9 @@ class DataHandler:
         if state == "flags":
             return self.data[["country", "flags"]]
         if state == "capital":
-            return self.data[["country", "capital"]]
+            nan_rows = self.data[self.data.isna().any(axis=1) == True]
+            print(nan_rows)
+            return self.data[["country", "capital"]].dropna()
         if state == "shapes":
             return self.data[["country", "shapes"]].dropna()
         if state == "all_in_one":
