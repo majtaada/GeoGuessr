@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import math
 from resources.constants import Constants
 from game.src.quiz_drawings import QuizDrawings
 from game.src.data_handler import DataHandler
@@ -17,7 +18,6 @@ class GameLogic:
         self.cst = Constants()
         self.modes = ["flags", "capital", "shapes"]
         self.all_in_one = False
-        self.score = 0
         self.quiz_draw = QuizDrawings(self.ui)
 
     def handle_events(self):
@@ -27,17 +27,19 @@ class GameLogic:
                 sys.exit()
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                for i in range(len(button_rects)):
-                    if button_rects[i].collidepoint(mouse):
-                        self.quiz_draw.clicked = i
-                        if self.quiz_draw.correct_answer_index == i:
-                            self.correct_answer()
-                        else:
-                            self.incorrect_answer()
+                if not self.quiz_draw.clicked:
+                    for i in range(len(button_rects)):
+                        if button_rects[i].collidepoint(mouse):
+                            if self.quiz_draw.correct_answer_index == i and self.quiz_draw.clicked is None:
+                                self.correct_answer()
+                            else:
+                                self.incorrect_answer()
+                            self.quiz_draw.clicked = i
+
+                    if self.quiz_draw.bulb_rect.collidepoint(mouse):
+                        self.set_hint()
                 if self.quiz_draw.arrow_rect.collidepoint(mouse):
                     self.next_question()
-                if self.quiz_draw.bulb_rect.collidepoint(mouse):
-                    self.set_hint()
 
     def set_hint(self):
         self.quiz_draw.hint = True
@@ -50,13 +52,14 @@ class GameLogic:
         self.quiz_draw.options_dict = None
         self.quiz_draw.hint = False
 
-    def draw_next_button(self):
-        self.score += 1
-        pass
-
     def correct_answer(self):
-        pass
-        # draw_next_button
+        scaler = self.data_handler.get_scaler(self.quiz_draw.options_dict["country"][self.quiz_draw.correct_answer_index],
+                                              self.mode)
+        scaler = 100 - scaler
+        to_add = self.cst.DEFAULT_SCORE * math.sqrt(scaler/100)
+        if self.quiz_draw.hint:
+            to_add *= 0.5
+        self.quiz_draw.score += round(to_add)
 
     def incorrect_answer(self):
         self.quiz_draw.life -= 1
@@ -70,8 +73,6 @@ class GameLogic:
                 self.mode = self.modes[random.randint(0, 2)]
             self.draw()
             self.handle_events()
-            if self.quiz_draw.clicked is not None:
-                self.draw_next_button()
             self.ui.clock.tick(60)
             pygame.display.flip()
             pygame.display.update()
@@ -95,6 +96,7 @@ class GameLogic:
         self.get_random_options()
         self.quiz_draw.add_text_buttons()
         self.quiz_draw.draw_light_bulb()
+        self.quiz_draw.draw_score()
         if self.quiz_draw.hint:
             self.quiz_draw.draw_hint()
         if self.quiz_draw.clicked is not None:

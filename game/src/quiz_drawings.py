@@ -30,6 +30,7 @@ class QuizDrawings:
         self.correct_answer_index = None
         self.clicked = None
         self.life = 3
+        self.score = 0
         self.options_dict = None
         self.hint = False
 
@@ -85,13 +86,13 @@ class QuizDrawings:
         if mode == 'flags':
             image = pygame.transform.scale(image, (426, 213))
         image_rect = image.get_rect()
-        image_rect.center = (self.ui.width / 2, self.ui.height / 4 + 42)  # 42 is half of the height of the text
+        image_rect.center = (self.ui.width / 2, self.ui.height / 4 + 35)  # 42 is half of the height of the text
         self.ui.screen.blit(image, image_rect)
 
     def draw_question(self):
         text = self.ui.font.render(self.question, True, self.cst.TEXT_COLOR)
         text_rect = text.get_rect()
-        text_rect.center = (self.ui.width / 2, self.ui.height / 8 + 42)
+        text_rect.center = (self.ui.width / 2, self.ui.height / 8 + 35)
         self.ui.screen.blit(text, text_rect)
 
     def draw_text(self, mode):
@@ -99,7 +100,7 @@ class QuizDrawings:
         font = pygame.font.Font('resources/monof55.ttf', 55)
         text = font.render(self.options_dict[mode][self.correct_answer_index], True, self.cst.TEXT_COLOR)
         text_rect = text.get_rect()
-        text_rect.center = (self.ui.width / 2, self.ui.height / 3 + 42)
+        text_rect.center = (self.ui.width / 2, self.ui.height / 3 + 35)
         self.ui.screen.blit(text, text_rect)
 
     def draw_next_button(self):
@@ -124,5 +125,12 @@ class QuizDrawings:
         text = font.render(self.hint_word, True, self.cst.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (self.bulb_rect.center[0], self.bulb_rect.center[1] + self.bulb_rect.height / 2 + 10)
+        self.ui.screen.blit(text, text_rect)
+
+    def draw_score(self):
+        font = pygame.font.Font('resources/monof55.ttf', 35)
+        text = font.render(str(self.score), True, self.cst.TEXT_COLOR)
+        text_rect = text.get_rect()
+        text_rect.center = (self.ui.width - text.get_size()[0], 35)
         self.ui.screen.blit(text, text_rect)
 

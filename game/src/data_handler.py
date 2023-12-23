@@ -1,8 +1,7 @@
 import pandas as pd
-import numpy as np
 import pygame
-import shutil
 import os
+from resources.constants import Constants
 
 
 def read_images(path):
@@ -44,11 +43,13 @@ class DataHandler:
         'North Macedonia': 'mk',
         'Palestinian National Authority': 'ps'
     }
+    scalers = ['flags', 'shapes', 'capital']
 
     def __init__(self):
         self.data = pd.DataFrame()
         self.flags = read_images("game/data/flags/")
         self.shapes = read_images("game/data/country_shapes/256_img/")
+        self.cst = Constants()
         self.create_data()
 
     def add_images_to_data(self):
@@ -56,8 +57,8 @@ class DataHandler:
         self.data["shapes"] = self.data["abbreviation"].map(self.shapes)
 
     def create_data(self):
-        data1 = pd.read_csv('game/data/countries.csv')
-        data2 = pd.read_csv('game/data/countries2.csv')
+        data1 = pd.read_csv('game/data/datasets/countries.csv')
+        data2 = pd.read_csv('game/data/datasets/countries2.csv')
         data1['Abbreviation'] = data1["Abbreviation"].str.lower()
         data1 = data1[['Country', 'Abbreviation']]
         data2 = data2[['country', 'capital_city', 'region']]
@@ -77,9 +78,30 @@ class DataHandler:
                      'capital_city': 'capital'})
         self.data = datamerged
         self.add_images_to_data()
+        self.add_scalers_to_data()
+
+    def add_scalers_to_data(self):
+        scalers_data = self.read_scalers_jsons()
+        for scaler in self.scalers:
+            self.data = pd.merge(self.data, scalers_data[scaler], left_on='country', right_on='country_scale',
+                                 how='outer')
+
+    def get_scaler(self, country, mode):
+        print(self.data.columns)
+        scale = self.data.loc[self.data['country'] == country, [mode + '_scale']]
+        scale = scale.iloc[0][mode + '_scale']
+        print(scale)
+        return scale
+    def read_scalers_jsons(self):
+        scalers = {}
+        for scaler in self.scalers:
+            df = pd.read_json(f"game/data/datasets/{scaler}_scale.json", orient='index', typ='series')
+            scalers[scaler] = df.rename_axis('country_scale').reset_index(name=f'{scaler}_scale')
+        return scalers
 
     def get_hint(self, country):
         return self.data.loc[self.data['country'] == country, ['region']]
+
     def get_data(self, state):
         if state == "flags":
             return self.data[["country", "flags"]]

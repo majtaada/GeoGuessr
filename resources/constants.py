@@ -19,3 +19,4 @@ class Constants:
     ARROW_HEIGHT = 89
     BULB_WIDTH = 100
     BULB_HEIGHT = 150
+    DEFAULT_SCORE = 100
