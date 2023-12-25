@@ -2,12 +2,18 @@ from game.src.main_menu import MainMenu
 import pygame
 
 
+def create_file():
+    with open("game/data/high_scores/high_scores.txt", "a") as _:
+        pass
+
+
 class Application:
     def __init__(self):
         self.UI = UI()
         self.main_menu = MainMenu(self.UI)
 
     def run(self):
+        create_file()
         while True:
             self.main_menu.run()
 
@@ -33,4 +39,3 @@ class UI:
     def draw_background(self):
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(self.logo, ((self.screen.get_width() - self.logo.get_width()) / 2, 0))
-

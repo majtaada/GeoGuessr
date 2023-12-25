@@ -83,10 +83,8 @@ class DataHandler:
                                  how='outer')
 
     def get_scaler(self, country, mode):
-        print(self.data.columns)
         scale = self.data.loc[self.data['country'] == country, [mode + '_scale']]
         scale = scale.iloc[0][mode + '_scale']
-        print(scale)
         return scale
 
     def read_scalers_jsons(self):
@@ -101,10 +99,8 @@ class DataHandler:
 
     def get_data(self, state):
         if state == "flags":
-            return self.data[["country", "flags"]]
+            return self.data[["country", "flags"]].dropna()
         if state == "capital":
-            nan_rows = self.data[self.data.isna().any(axis=1) == True]
-            print(nan_rows)
             return self.data[["country", "capital"]].dropna()
         if state == "shapes":
             return self.data[["country", "shapes"]].dropna()

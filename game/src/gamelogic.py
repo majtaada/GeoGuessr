@@ -36,7 +36,6 @@ class GameLogic:
                             elif self.quiz_draw.correct_answer_index != i and self.quiz_draw.clicked is None:
                                 self.incorrect_answer()
                             self.quiz_draw.clicked = i
-                            break
 
                     if self.quiz_draw.bulb_rect.collidepoint(mouse):
                         self.set_hint()
@@ -56,10 +55,11 @@ class GameLogic:
         self.changed_mode = False
 
     def correct_answer(self):
-        scaler = self.data_handler.get_scaler(self.quiz_draw.options_dict["country"][self.quiz_draw.correct_answer_index],
-                                              self.mode)
+        scaler = self.data_handler.get_scaler(
+            self.quiz_draw.options_dict["country"][self.quiz_draw.correct_answer_index],
+            self.mode)
         scaler = 100 - scaler
-        to_add = cst.DEFAULT_SCORE * math.sqrt(scaler/100)
+        to_add = cst.DEFAULT_SCORE * math.sqrt(scaler / 100)
         if self.quiz_draw.hint:
             to_add *= 0.5
         self.quiz_draw.score += round(to_add)
@@ -86,7 +86,6 @@ class GameLogic:
         return self.quiz_draw.score
 
     def fill_options_dict(self, options):
-        print(self.mode)
         if self.all_in_one:
             options = options[["country", self.mode]]
         self.quiz_draw.options_dict = {"country": [], f"{self.mode}": []}
@@ -116,5 +115,3 @@ class GameLogic:
             self.quiz_draw.draw_image(self.mode)
         if self.mode == "capital":
             self.quiz_draw.draw_text(self.mode)
-
-

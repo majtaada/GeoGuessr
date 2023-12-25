@@ -61,12 +61,15 @@ class GameModes:
                     nick = nick[:-1]
                 if event.type == pygame.KEYUP and event.key != pygame.K_BACKSPACE:
                     nick += event.unicode
-                if len(nick) > 27:
+                if len(nick) > 5:
                     nick = nick[:27]
 
     def save_score(self, score):
         with open("game/data/high_scores/high_scores.txt", "a") as file:
-            file.write(f"{self.mode} {self.nick} {score}\n")
+            if self.mode == "all_in_one":
+                file.write(f"AllInOne {self.nick} {score}\n")
+            else:
+                file.write(f"{self.mode.capitalize()} {self.nick} {score}\n")
 
     def run(self, mode):
         self.mode = mode

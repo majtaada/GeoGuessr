@@ -1,4 +1,4 @@
-shapes a 53
-all_in_one adam 974
-all_in_one Adam 344
-all_in_one PES 619
+Shapes Adam 517
+Flags Adam 2563
+Capital adam 0
+Capital dadadma 354

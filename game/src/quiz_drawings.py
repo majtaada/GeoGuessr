@@ -46,7 +46,9 @@ class QuizDrawings:
                     pygame.draw.rect(self.ui.screen, cst.DEFAULT_BUTTON_COLOR, rectangle)
 
     def add_text_buttons(self):
+        print(self.options_dict["country"])
         for i, option in enumerate(self.options_dict["country"]):
+            print(option)
             option_word = option.split()
             if len(option_word) > 2:
                 self.handle_long_words(option_word, i)
