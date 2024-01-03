@@ -26,7 +26,7 @@ class EndScreen:
 
     def draw(self):
         self.ui.draw_background()
-        text = self.ui.font.render("Your score is: ", True, "#000000")
+        text = self.ui.font.render("Your score is: ", True, cst.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (self.ui.width / 2, self.ui.height / 3)
         self.ui.screen.blit(text, text_rect)

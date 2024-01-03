@@ -3,6 +3,7 @@ import sys
 from game.src.data_handler import DataHandler
 from game.src.gamelogic import GameLogic
 import resources.constants as cst
+from game.src.loading_screen import LoadScreen
 
 
 class GameModes:
@@ -18,6 +19,7 @@ class GameModes:
                                            cst.TEXT_INPUT_WIDTH,
                                            cst.TEXT_INPUT_HEIGHT)
         self.data_handler = DataHandler()
+        self.load_screen = LoadScreen(self.ui)
 
     def draw_rect(self, outline_color=(0, 0, 0), border=1):
         fill_color = cst.DEFAULT_BUTTON_COLOR
@@ -62,14 +64,14 @@ class GameModes:
                 if event.type == pygame.KEYUP and event.key != pygame.K_BACKSPACE:
                     nick += event.unicode
                 if len(nick) > 5:
-                    nick = nick[:27]
+                    nick = nick[:5]
 
     def save_score(self, score):
         with open("game/data/high_scores/high_scores.txt", "a") as file:
             if self.mode == "all_in_one":
                 file.write(f"AllInOne {self.nick} {score}\n")
             else:
-                file.write(f"{self.mode.capitalize()} {self.nick} {score}\n")
+                file.write(f"{self.mode.capitalize()} {self.nick.replace(' ', '')} {score}\n")
 
     def run(self, mode):
         self.mode = mode
@@ -77,6 +79,7 @@ class GameModes:
         print(self.data.isna().sum())
         self.nick = self.get_nick()
         gamelogic = GameLogic(self.ui, self.data, self.mode)
+        self.load_screen.run()
         gamelogic.run()
         self.save_score(gamelogic.get_score())
 

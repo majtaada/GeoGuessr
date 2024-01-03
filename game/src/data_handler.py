@@ -15,7 +15,7 @@ def read_images(path):
 class DataHandler:
     country_mapping = {
         'Slovak Republic': 'Slovakia',
-        'São Tomé and Principe': 'Sao Tome and Principe ',
+        'São Tomé and Principe': 'Sao Tome and Principe',
         "Côte d'Ivoire": 'Ivory Coast',
         'St. Kitts and Nevis': 'Saint Kitts and Nevis',
         "Dem. People's Rep. Korea": 'North Korea',

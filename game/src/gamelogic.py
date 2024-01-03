@@ -28,18 +28,18 @@ class GameLogic:
                 sys.exit()
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if not self.quiz_draw.clicked:
+                if self.quiz_draw.clicked is None:
                     for i in range(len(button_rects)):
                         if button_rects[i].collidepoint(mouse):
-                            if self.quiz_draw.correct_answer_index == i and self.quiz_draw.clicked is None:
+                            if self.quiz_draw.correct_answer_index == i:
                                 self.correct_answer()
-                            elif self.quiz_draw.correct_answer_index != i and self.quiz_draw.clicked is None:
+                            elif self.quiz_draw.correct_answer_index != i:
                                 self.incorrect_answer()
                             self.quiz_draw.clicked = i
 
                     if self.quiz_draw.bulb_rect.collidepoint(mouse):
                         self.set_hint()
-                if self.quiz_draw.arrow_rect.collidepoint(mouse):
+                if self.quiz_draw.arrow_rect.collidepoint(mouse) and self.quiz_draw.clicked is not None:
                     self.next_question()
 
     def set_hint(self):
