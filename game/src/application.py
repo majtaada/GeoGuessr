@@ -1,4 +1,5 @@
-from game.src.main_menu import MainMenu
+"""Main class of the game."""
+from .main_menu import MainMenu
 import pygame
 
 
@@ -10,6 +11,7 @@ def create_file():
 
 class Application:
     """Main class of the game."""
+
     def __init__(self):
         """Initialize the game."""
         self.UI = UI()
@@ -24,6 +26,7 @@ class Application:
 
 class UI:
     """Class for handling UI."""
+
     def __init__(self):
         """Initialize UI."""
         self.screen = pygame.display.set_mode((800, 600))
@@ -45,4 +48,5 @@ class UI:
     def draw_background(self):
         """Draw background."""
         self.screen.blit(self.background, (0, 0))
-        self.screen.blit(self.logo, ((self.screen.get_width() - self.logo.get_width()) / 2, 0))
+        self.screen.blit(
+            self.logo, ((self.screen.get_width() - self.logo.get_width()) / 2, 0))

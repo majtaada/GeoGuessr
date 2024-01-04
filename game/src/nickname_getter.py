@@ -1,9 +1,11 @@
-import pygame
+"""Getting nickname from user and running game modes"""
+
 import sys
-from game.src.data_handler import DataHandler
-from game.src.gamelogic import GameLogic
-import resources.constants as cst
-from game.src.loading_screen import LoadScreen
+import pygame
+from .data_handler import DataHandler
+from .gamelogic import GameLogic
+from .loading_screen import LoadScreen
+from . import constants as cst
 
 
 class GameModes:
@@ -13,13 +15,13 @@ class GameModes:
         """Initialize game modes"""
         self.nick = None
         self.options = None
-        self.data = None
         self.mode = None
         self.ui = ui
-        self.text_background = pygame.Rect(self.ui.width / 2 - cst.TEXT_INPUT_WIDTH / 2,
-                                           self.ui.height / 2 - cst.TEXT_INPUT_HEIGHT / 2,
-                                           cst.TEXT_INPUT_WIDTH,
-                                           cst.TEXT_INPUT_HEIGHT)
+        self.text_background = pygame.Rect(
+            self.ui.width / 2 - cst.TEXT_INPUT_WIDTH / 2,
+            self.ui.height / 2 - cst.TEXT_INPUT_HEIGHT / 2,
+            cst.TEXT_INPUT_WIDTH,
+            cst.TEXT_INPUT_HEIGHT)
         self.data_handler = DataHandler()
         self.load_screen = LoadScreen(self.ui)
 
@@ -27,14 +29,16 @@ class GameModes:
         """Draw rectangle"""
         fill_color = cst.DEFAULT_BUTTON_COLOR
         self.ui.screen.fill(outline_color, self.text_background)
-        self.ui.screen.fill(fill_color, self.text_background.inflate(-border * 2, -border * 2))
+        self.ui.screen.fill(
+            fill_color, self.text_background.inflate(-border * 2, -border * 2))
 
     def add_text_button(self):
         """Add text button"""
         x, y, w, h = self.text_background
         pygame.draw.rect(self.ui.screen, (255, 255, 255), self.text_background)
         for i in range(4):
-            pygame.draw.rect(self.ui.screen, (0, 0, 0), (x - i, y - i, w, h), 1)
+            pygame.draw.rect(self.ui.screen, (0, 0, 0),
+                             (x - i, y - i, w, h), 1)
 
     def add_text(self):
         """Add text"""
@@ -70,26 +74,25 @@ class GameModes:
                     nick = nick[:-1]
                 if event.type == pygame.KEYUP and event.key != pygame.K_BACKSPACE:
                     nick += event.unicode
-                if len(nick) > 5:
-                    nick = nick[:5]
+                if len(nick) > 27:
+                    nick = nick[:27]
 
     def save_score(self, score):
         """Save score to file"""
-        with open("game/data/high_scores/high_scores.txt", "a") as file:
+        with open("game/data/high_scores/high_scores.txt", "a", encoding="utf-8") as file:
             if self.mode == "all_in_one":
-                file.write(f"AllInOne {self.nick} {score}\n")
+                file.write(f"AllInOne {self.nick[:5]} {score}\n")
             else:
-                file.write(f"{self.mode.capitalize()} {self.nick.replace(' ', '')} {score}\n")
+                file.write(
+                    f"{self.mode.capitalize()} {self.nick.replace(' ', '')} {score}\n")
 
     def run(self, mode):
         """Get nick and run game modes"""
         self.mode = mode
-        self.data = self.data_handler.get_data(mode)
+        data = self.data_handler.get_data(mode)
         if self.nick is None:
             self.nick = self.get_nick()
-        gamelogic = GameLogic(self.ui, self.data, self.mode)
+        gamelogic = GameLogic(self.ui, data, self.mode)
         self.load_screen.run()
         gamelogic.run()
         self.save_score(gamelogic.get_score())
-
-

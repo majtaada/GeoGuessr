@@ -1,15 +1,17 @@
+"""This module contains the GameLogic class."""
 import pygame
 import sys
 import random
 import math
-import resources.constants as cst
-from game.src.quiz_drawings import QuizDrawings
-from game.src.data_handler import DataHandler
-from game.src.end_screen import EndScreen
+from . import constants as cst
+from .quiz_drawings import QuizDrawings
+from .data_handler import DataHandler
+from .end_screen import EndScreen
 
 
 class GameLogic:
     """Class for handling game logic."""
+
     def __init__(self, ui, data, mode):
         """Initialize game logic."""
         self.options_dict = None
@@ -41,13 +43,15 @@ class GameLogic:
 
                     if self.quiz_draw.bulb_rect.collidepoint(mouse):
                         self.set_hint()
-                if self.quiz_draw.arrow_rect.collidepoint(mouse) and self.quiz_draw.clicked is not None:
+                if self.quiz_draw.arrow_rect.collidepoint(
+                        mouse) and self.quiz_draw.clicked is not None:
                     self.next_question()
 
     def set_hint(self):
         """Set hint"""
         self.quiz_draw.hint = True
-        hint = self.data_handler.get_hint(self.quiz_draw.options_dict["country"][self.quiz_draw.correct_answer_index])
+        hint = self.data_handler.get_hint(
+            self.quiz_draw.options_dict["country"][self.quiz_draw.correct_answer_index])
         self.quiz_draw.hint_word = hint.iloc[0]['region']
 
     def next_question(self):

@@ -1,14 +1,20 @@
-import pygame
+"""Module for handling end screen."""
+
 import sys
-import resources.constants as cst
+import pygame
+from . import constants as cst
 
 
 class EndScreen:
     """Class for handling end screen."""
+
     def __init__(self, ui, score):
         """Initialize end screen."""
-        self.back_to_menu_rect = pygame.Rect(ui.width / 2 - cst.ARROW_WIDTH / 2, ui.height / 4 * 3,
-                                             cst.ARROW_WIDTH, cst.ARROW_HEIGHT)
+        self.back_to_menu_rect = pygame.Rect(
+            ui.width / 2 - cst.ARROW_WIDTH / 2,
+            ui.height / 4 * 3,
+            cst.ARROW_WIDTH,
+            cst.ARROW_HEIGHT)
         self.ui = ui
         self.score = score
 

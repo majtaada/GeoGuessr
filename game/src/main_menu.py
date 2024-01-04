@@ -1,9 +1,10 @@
+"""Main menu module"""
 import pygame
 import sys
-from game.src.highscore import HighScore
-from game.src.play_button import PlayButton
-from game.src.nickname_getter import GameModes
-import resources.constants as cst
+from .highscore import HighScore
+from .play_button import PlayButton
+from .nickname_getter import GameModes
+from . import constants as cst
 
 
 class MainMenu:
@@ -16,11 +17,21 @@ class MainMenu:
         self.width = self.ui.screen.get_width()
         self.height = self.ui.screen.get_height()
         self.button_rects = [
-            pygame.Rect(self.width / 2 - 150, self.height / 4, cst.MENU_BUTTON_WIDTH, cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.width / 2 - 150, self.height / 4 + 100, cst.MENU_BUTTON_WIDTH,
-                        cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.width / 2 - 150, self.height / 4 + 200, cst.MENU_BUTTON_WIDTH,
-                        cst.MENU_BUTTON_HEIGHT)]
+            pygame.Rect(
+                self.width / 2 - 150,
+                self.height / 4,
+                cst.MENU_BUTTON_WIDTH,
+                cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(
+                self.width / 2 - 150,
+                self.height / 4 + 100,
+                cst.MENU_BUTTON_WIDTH,
+                cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(
+                self.width / 2 - 150,
+                self.height / 4 + 200,
+                cst.MENU_BUTTON_WIDTH,
+                cst.MENU_BUTTON_HEIGHT)]
 
     def draw_buttons(self):
         """Draw buttons"""
@@ -29,9 +40,15 @@ class MainMenu:
         texts = ["Play", "High Scores", "Quit"]
         for i in range(len(rectangles)):
             if rectangles[i].collidepoint(mouse):
-                pygame.draw.rect(self.ui.screen, cst.PRESSED_BUTTON_COLOR, rectangles[i])
+                pygame.draw.rect(
+                    self.ui.screen,
+                    cst.PRESSED_BUTTON_COLOR,
+                    rectangles[i])
             else:
-                pygame.draw.rect(self.ui.screen, cst.DEFAULT_BUTTON_COLOR, rectangles[i])
+                pygame.draw.rect(
+                    self.ui.screen,
+                    cst.DEFAULT_BUTTON_COLOR,
+                    rectangles[i])
             text = self.ui.font.render(texts[i], True, "#000000")
             text_rect = text.get_rect()
             text_rect.center = rectangles[i].center

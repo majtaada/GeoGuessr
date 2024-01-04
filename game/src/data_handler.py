@@ -1,3 +1,4 @@
+"""Module for handling data."""
 import pandas as pd
 import pygame
 import os
@@ -66,18 +67,31 @@ class DataHandler:
         data1 = data1[['Country', 'Abbreviation']]
         data2 = data2[['country', 'capital_city', 'region']]
         data2['country'] = data2['country'].replace(self.country_mapping)
-        datamerged = pd.merge(data1, data2, left_on='Country', right_on='country', how='outer')
+        datamerged = pd.merge(
+            data1,
+            data2,
+            left_on='Country',
+            right_on='country',
+            how='outer')
         datamerged = datamerged.drop('country', axis='columns')
-        datamerged.loc[datamerged['region'] == "Australia and New Zealand", ['region']] = 'Oceania'
-        datamerged.loc[datamerged['region'] == "South-Eastern Asia", ['region']] = 'South-East Asia'
+        datamerged.loc[datamerged['region'] ==
+                       "Australia and New Zealand", ['region']] = 'Oceania'
+        datamerged.loc[datamerged['region'] ==
+                       "South-Eastern Asia", ['region']] = 'South-East Asia'
         datamerged['Abbreviation'] = datamerged['Abbreviation'].fillna(
             datamerged['Country'].map(self.country_abbreviations))
-        datamerged.loc[datamerged['Country'] == 'Vatican City', ['capital_city', 'region']] = datamerged.loc[
-            datamerged['Country'] == 'Vatican City', ['capital_city', 'region']].fillna(
-            value={'capital_city': 'Vatican City', 'region': 'Southern Europe'})
+        datamerged.loc[datamerged['Country'] == 'Vatican City',
+                       ['capital_city',
+                        'region']] = datamerged.loc[datamerged['Country'] == 'Vatican City',
+                                                    ['capital_city',
+                                                     'region']].fillna(value={'capital_city': 'Vatican City',
+                                                                              'region': 'Southern Europe'})
         datamerged = datamerged.rename(
-            columns={'Country': 'country', 'Population': 'population', 'Abbreviation': 'abbreviation',
-                     'capital_city': 'capital'})
+            columns={
+                'Country': 'country',
+                'Population': 'population',
+                'Abbreviation': 'abbreviation',
+                'capital_city': 'capital'})
         self.data = datamerged
         self.add_images_to_data()
         self.add_scalers_to_data()
@@ -87,13 +101,18 @@ class DataHandler:
         """Adds scalers to data"""
         scalers_data = self.read_scalers_jsons()
         for scaler in self.scalers:
-            self.data = pd.merge(self.data, scalers_data[scaler], left_on='country', right_on='country_scale',
-                                 how='outer')
+            self.data = pd.merge(
+                self.data,
+                scalers_data[scaler],
+                left_on='country',
+                right_on='country_scale',
+                how='outer')
             self.data = self.data.drop('country_scale', axis='columns')
 
     def get_scaler(self, country, mode):
         """Returns scaler for given country and mode"""
-        scale = self.data.loc[self.data['country'] == country, [mode + '_scale']]
+        scale = self.data.loc[self.data['country']
+                              == country, [mode + '_scale']]
         scale = scale.iloc[0][mode + '_scale']
         return scale
 
@@ -101,8 +120,12 @@ class DataHandler:
         """Reads scalers from json files and returns them in a dictionary with scaler names as keys"""
         scalers = {}
         for scaler in self.scalers:
-            df = pd.read_json(f"game/data/datasets/{scaler}_scale.json", orient='index', typ='series')
-            scalers[scaler] = df.rename_axis('country_scale').reset_index(name=f'{scaler}_scale')
+            df = pd.read_json(
+                f"game/data/datasets/{scaler}_scale.json",
+                orient='index',
+                typ='series')
+            scalers[scaler] = df.rename_axis(
+                'country_scale').reset_index(name=f'{scaler}_scale')
         return scalers
 
     def get_hint(self, country):
@@ -118,7 +141,8 @@ class DataHandler:
         if state == "shapes":
             return self.data[["country", "shapes"]].dropna()
         if state == "all_in_one":
-            return self.data[['country', 'capital', 'flags', 'shapes']].dropna()
+            return self.data[['country', 'capital',
+                              'flags', 'shapes']].dropna()
 
     def print_data(self):
         """Prints data"""
