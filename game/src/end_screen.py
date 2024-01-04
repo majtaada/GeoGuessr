@@ -4,13 +4,16 @@ import resources.constants as cst
 
 
 class EndScreen:
+    """Class for handling end screen."""
     def __init__(self, ui, score):
+        """Initialize end screen."""
         self.back_to_menu_rect = pygame.Rect(ui.width / 2 - cst.ARROW_WIDTH / 2, ui.height / 4 * 3,
                                              cst.ARROW_WIDTH, cst.ARROW_HEIGHT)
         self.ui = ui
         self.score = score
 
     def run(self):
+        """Run end screen."""
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -25,6 +28,7 @@ class EndScreen:
             pygame.display.update()
 
     def draw(self):
+        """Draw end screen."""
         self.ui.draw_background()
         text = self.ui.font.render("Your score is: ", True, cst.TEXT_COLOR)
         text_rect = text.get_rect()
@@ -38,6 +42,7 @@ class EndScreen:
         self.draw_back_to_menu_button()
 
     def draw_back_to_menu_button(self):
+        """ Draw back to menu button."""
         mouse = pygame.mouse.get_pos()
         if self.back_to_menu_rect.collidepoint(mouse):
             self.ui.screen.blit(self.ui.arrow_clicked, self.back_to_menu_rect)

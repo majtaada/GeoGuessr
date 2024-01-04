@@ -4,10 +4,12 @@ import resources.constants as cst
 import pandas as pd
 
 
-class HighScoreButton:
+class HighScore:
+    """Class for handling high score"""
     columns = ["Rank", "Mode", "Nickname", "Score"]
 
     def __init__(self, ui):
+        """Initialize high score"""
         self.data = None
         self.ui = ui
         self.back_to_menu_rect = pygame.Rect(ui.width / 2 - cst.ARROW_WIDTH / 2, ui.height - cst.ARROW_HEIGHT,
@@ -15,6 +17,7 @@ class HighScoreButton:
         self.get_high_scores()
 
     def run(self):
+        """Run high score"""
         while True:
             if self.handle_events():
                 return
@@ -24,6 +27,7 @@ class HighScoreButton:
             pygame.display.update()
 
     def handle_events(self):
+        """Handle events"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -33,12 +37,14 @@ class HighScoreButton:
                     return True
 
     def draw(self):
+        """Draw high score"""
         self.ui.draw_background()
         self.draw_texts()
         self.draw_back_to_menu_button()
         self.draw_high_scores()
 
     def draw_high_scores(self):
+        """Draw high scores"""
         for i in range(len(self.data)):
             for j, column in enumerate(self.columns):
                 text = self.ui.font.render(str(self.data[column].iloc[i]), True, cst.TEXT_COLOR)
@@ -48,6 +54,7 @@ class HighScoreButton:
                 self.ui.screen.blit(text, text_rect)
 
     def draw_texts(self):
+        """Draw texts"""
         text = self.ui.font.render("High Scores", True, cst.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (self.ui.width / 2, 0 + text.get_height() / 2 + self.ui.logo.get_height())
@@ -60,6 +67,7 @@ class HighScoreButton:
             self.ui.screen.blit(text, text_rect)
 
     def get_high_scores(self):
+        """Get high scores for visualization"""
         with open("game/data/high_scores/high_scores.txt", "r") as file:
             self.data = file.readlines()
         self.data = [line.strip().split() for line in self.data]
@@ -71,6 +79,7 @@ class HighScoreButton:
         self.data.insert(0, 'Rank', self.data.index + 1)
 
     def draw_back_to_menu_button(self):
+        """Draw back to menu button"""
         mouse = pygame.mouse.get_pos()
         if self.back_to_menu_rect.collidepoint(mouse):
             self.ui.screen.blit(pygame.transform.rotate(self.ui.arrow_clicked, 180), self.back_to_menu_rect)

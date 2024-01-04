@@ -9,8 +9,9 @@ from game.src.end_screen import EndScreen
 
 
 class GameLogic:
-
+    """Class for handling game logic."""
     def __init__(self, ui, data, mode):
+        """Initialize game logic."""
         self.options_dict = None
         self.ui = ui
         self.data = data
@@ -22,6 +23,7 @@ class GameLogic:
         self.quiz_draw = QuizDrawings(self.ui)
 
     def handle_events(self):
+        """Handle events."""
         button_rects = self.quiz_draw.button_rects
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -43,11 +45,13 @@ class GameLogic:
                     self.next_question()
 
     def set_hint(self):
+        """Set hint"""
         self.quiz_draw.hint = True
         hint = self.data_handler.get_hint(self.quiz_draw.options_dict["country"][self.quiz_draw.correct_answer_index])
         self.quiz_draw.hint_word = hint.iloc[0]['region']
 
     def next_question(self):
+        """Reset all variables for next question."""
         self.quiz_draw.clicked = None
         self.quiz_draw.correct_answer_index = None
         self.quiz_draw.options_dict = None
@@ -55,6 +59,7 @@ class GameLogic:
         self.changed_mode = False
 
     def correct_answer(self):
+        """Handle correct answer."""
         scaler = self.data_handler.get_scaler(
             self.quiz_draw.options_dict["country"][self.quiz_draw.correct_answer_index],
             self.mode)
@@ -65,9 +70,11 @@ class GameLogic:
         self.quiz_draw.score += round(to_add)
 
     def incorrect_answer(self):
+        """Handle incorrect answer."""
         self.quiz_draw.life -= 1
 
     def run(self):
+        """Run game logic."""
         if self.mode == 'all_in_one':
             self.all_in_one = True
         while self.quiz_draw.life != 0:
@@ -83,9 +90,11 @@ class GameLogic:
         end_screen.run()
 
     def get_score(self):
+        """Return score."""
         return self.quiz_draw.score
 
     def fill_options_dict(self, options):
+        """Fill options dictionary."""
         if self.all_in_one:
             options = options[["country", self.mode]]
         self.quiz_draw.options_dict = {"country": [], f"{self.mode}": []}
@@ -94,12 +103,14 @@ class GameLogic:
                 self.quiz_draw.options_dict[column].append(value)
 
     def get_random_options(self):
+        """Get random options."""
         if self.quiz_draw.options_dict is None:
             options = self.data.sample(n=4, replace=False)
             self.fill_options_dict(options)
             self.quiz_draw.correct_answer_index = random.randint(0, 3)
 
     def draw(self):
+        """Drawings for game logic."""
         self.ui.draw_background()
         self.quiz_draw.draw_hearts()
         self.quiz_draw.draw_buttons()

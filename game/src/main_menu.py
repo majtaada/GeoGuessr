@@ -1,14 +1,16 @@
 import pygame
 import sys
-from game.src.highscore_button import HighScoreButton
+from game.src.highscore import HighScore
 from game.src.play_button import PlayButton
 from game.src.nickname_getter import GameModes
 import resources.constants as cst
 
 
 class MainMenu:
+    """Class for handling main menu"""
 
     def __init__(self, ui):
+        """Initialize main menu"""
         self.mode = None
         self.ui = ui
         self.width = self.ui.screen.get_width()
@@ -21,6 +23,7 @@ class MainMenu:
                         cst.MENU_BUTTON_HEIGHT)]
 
     def draw_buttons(self):
+        """Draw buttons"""
         mouse = pygame.mouse.get_pos()
         rectangles = self.button_rects
         texts = ["Play", "High Scores", "Quit"]
@@ -35,10 +38,12 @@ class MainMenu:
             self.ui.screen.blit(text, text_rect)
 
     def draw(self):
+        """Draw main menu"""
         self.ui.draw_background()
         self.draw_buttons()
 
     def handle_events(self):
+        """Handle events"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -49,7 +54,7 @@ class MainMenu:
                 play_button.run()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.button_rects[1].collidepoint(
                     event.pos):
-                highscore_button = HighScoreButton(self.ui)
+                highscore_button = HighScore(self.ui)
                 highscore_button.run()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.button_rects[2].collidepoint(
                     event.pos):
@@ -57,6 +62,7 @@ class MainMenu:
                 sys.exit()
 
     def run(self):
+        """Run main menu"""
         while True:
             if self.mode is not None:
                 game_modes = GameModes(self.ui)

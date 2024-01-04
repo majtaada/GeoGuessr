@@ -3,9 +3,11 @@ import resources.constants as cst
 
 
 class QuizDrawings:
+    """Class for handling quiz drawings"""
     question = "Which country capital is this?:"
 
     def __init__(self, ui):
+        """Initialize quiz drawings"""
         self.hint_word = None
         self.ui = ui
         self.button_rects = [pygame.Rect(self.ui.width / 4 - cst.QUESTION_BUTTON_WIDTH / 2, self.ui.height / 5 * 4,
@@ -32,6 +34,7 @@ class QuizDrawings:
         self.hint = False
 
     def draw_buttons(self):
+        """Draw buttons"""
         mouse = pygame.mouse.get_pos()
         rectangles = self.button_rects
         for i, rectangle in enumerate(rectangles):
@@ -46,9 +49,8 @@ class QuizDrawings:
                     pygame.draw.rect(self.ui.screen, cst.DEFAULT_BUTTON_COLOR, rectangle)
 
     def add_text_buttons(self):
-        print(self.options_dict["country"])
+        """Add text buttons"""
         for i, option in enumerate(self.options_dict["country"]):
-            print(option)
             option_word = option.split()
             if len(option_word) > 2:
                 self.handle_long_words(option_word, i)
@@ -59,6 +61,7 @@ class QuizDrawings:
                 self.ui.screen.blit(text, text_rect)
 
     def draw_hearts(self):
+        """Draw hearts"""
         for i in range(3):
             if i <= self.life - 1:
                 image = pygame.transform.scale(self.ui.red_heart, (35, 35))
@@ -68,6 +71,7 @@ class QuizDrawings:
                 self.ui.screen.blit(image, (35 * i + 5, 5))
 
     def handle_long_words(self, option_word, i):
+        """Handle long words, split them into two lines"""
         option_line1 = " ".join(option_word[:((len(option_word) + 1) // 2)])
         option_line2 = " ".join(option_word[((len(option_word) + 1) // 2):])
         font = pygame.font.Font('resources/monof55.ttf', 30)
@@ -81,6 +85,7 @@ class QuizDrawings:
         self.ui.screen.blit(text, text_rect)
 
     def draw_image(self, mode):
+        """Draw image"""
         image = self.options_dict[mode][self.correct_answer_index]
         if mode == 'flags':
             image = pygame.transform.scale(image, (426, 213))
@@ -89,12 +94,14 @@ class QuizDrawings:
         self.ui.screen.blit(image, image_rect)
 
     def draw_question(self):
+        """Draw question"""
         text = self.ui.font.render(self.question, True, cst.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (self.ui.width / 2, self.ui.height / 8 + cst.DEFAULT_QUESTION_GAP)
         self.ui.screen.blit(text, text_rect)
 
     def draw_text(self, mode):
+        """Draw text"""
         self.draw_question()
         font = pygame.font.Font('resources/monof55.ttf', 55)
         text = font.render(self.options_dict[mode][self.correct_answer_index], True, cst.TEXT_COLOR)
@@ -103,6 +110,7 @@ class QuizDrawings:
         self.ui.screen.blit(text, text_rect)
 
     def draw_next_button(self):
+        """Draw next button after answering"""
         mouse = pygame.mouse.get_pos()
         if self.arrow_rect.collidepoint(mouse):
             self.ui.screen.blit(self.ui.arrow_clicked, self.arrow_rect)
@@ -110,6 +118,7 @@ class QuizDrawings:
             self.ui.screen.blit(self.ui.arrow_default, self.arrow_rect)
 
     def draw_light_bulb(self):
+        """Draw light bulb for hint"""
         if self.hint:
             self.ui.screen.blit(self.ui.bulb_yellow, self.bulb_rect)
         else:
@@ -120,6 +129,7 @@ class QuizDrawings:
                 self.ui.screen.blit(self.ui.bulb_gray, self.bulb_rect)
 
     def draw_hint(self):
+        """Draw hint"""
         font = pygame.font.Font('resources/monof55.ttf', 20)
         text = font.render(self.hint_word, True, cst.TEXT_COLOR)
         text_rect = text.get_rect()
@@ -127,6 +137,7 @@ class QuizDrawings:
         self.ui.screen.blit(text, text_rect)
 
     def draw_score(self):
+        """Draw score"""
         font = pygame.font.Font('resources/monof55.ttf', 35)
         text = font.render(str(self.score), True, cst.TEXT_COLOR)
         text_rect = text.get_rect()

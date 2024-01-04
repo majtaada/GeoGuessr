@@ -5,21 +5,27 @@ import resources.constants as cst
 
 
 class PlayButton:
+    """Class for handling play button"""
+
     def __init__(self, ui):
+        """Initialize play button"""
         self.ui = ui
         self.button_rects = [
-            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5, cst.MENU_BUTTON_WIDTH, cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 100, cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH / 2, self.ui.height / 5, cst.MENU_BUTTON_WIDTH,
                         cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 200, cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH / 2, self.ui.height / 5 + 100, cst.MENU_BUTTON_WIDTH,
                         cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 300, cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH / 2, self.ui.height / 5 + 200, cst.MENU_BUTTON_WIDTH,
                         cst.MENU_BUTTON_HEIGHT),
-            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH/2, self.ui.height / 5 + 400, cst.MENU_BUTTON_WIDTH,
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH / 2, self.ui.height / 5 + 300, cst.MENU_BUTTON_WIDTH,
+                        cst.MENU_BUTTON_HEIGHT),
+            pygame.Rect(self.ui.width / 2 - cst.MENU_BUTTON_WIDTH / 2, self.ui.height / 5 + 400, cst.MENU_BUTTON_WIDTH,
                         cst.MENU_BUTTON_HEIGHT)]
         self.game_modes = GameModes(ui)
         self.modes = ["flags", "capital", "shapes", "all_in_one"]
+
     def run(self):
+        """Run play button"""
         while True:
             mode = self.handle_events()
             if mode == "main_menu":
@@ -32,6 +38,7 @@ class PlayButton:
             pygame.display.update()
 
     def handle_events(self):
+        """Handle events"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -61,6 +68,7 @@ class PlayButton:
                     return "main_menu"
 
     def draw_buttons(self):
+        """Draw buttons"""
         mouse = pygame.mouse.get_pos()
         texts = ["Flags", "Capitals", "Country Shapes", "All in one", "Back"]
         rects = self.button_rects
@@ -75,5 +83,6 @@ class PlayButton:
             self.ui.screen.blit(text, text_rect)
 
     def draw(self):
+        """Draw play button"""
         self.ui.draw_background()
         self.draw_buttons()

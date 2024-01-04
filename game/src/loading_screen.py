@@ -4,16 +4,19 @@ import resources.constants as cst
 
 
 class LoadScreen:
+    """Class for loading screen"""
     texts = ["Collect most points to win!", "Question after using hint", "  is worth half the points ",
              "Press arrow to continue..."]
 
     def __init__(self, ui):
+        """Initialize loading screen"""
         self.ui = ui
         self.arrow_rect = pygame.Rect(self.ui.width / 2 - cst.ARROW_WIDTH / 2, self.ui.height - cst.ARROW_HEIGHT,
                                       cst.ARROW_WIDTH,
                                       cst.ARROW_HEIGHT)
 
     def run(self):
+        """Run loading screen"""
         while True:
             self.ui.draw_background()
             self.add_texts()
@@ -32,6 +35,7 @@ class LoadScreen:
             pygame.display.update()
 
     def add_arrow(self):
+        """Add arrow to continue"""
         mouse = pygame.mouse.get_pos()
         if self.arrow_rect.collidepoint(mouse):
             self.ui.screen.blit(self.ui.arrow_clicked, self.arrow_rect)
@@ -39,6 +43,7 @@ class LoadScreen:
             self.ui.screen.blit(self.ui.arrow_default, self.arrow_rect)
 
     def add_texts(self):
+        """Add texts"""
         for i in range(len(self.texts)):
             font = pygame.font.Font('resources/monof55.ttf', 50)
             text = font.render(self.texts[i], True, "#000000")
