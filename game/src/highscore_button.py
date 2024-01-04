@@ -73,6 +73,6 @@ class HighScoreButton:
     def draw_back_to_menu_button(self):
         mouse = pygame.mouse.get_pos()
         if self.back_to_menu_rect.collidepoint(mouse):
-            self.ui.screen.blit(self.ui.arrow_clicked, self.back_to_menu_rect)
+            self.ui.screen.blit(pygame.transform.rotate(self.ui.arrow_clicked, 180), self.back_to_menu_rect)
         else:
-            self.ui.screen.blit(self.ui.arrow_default, self.back_to_menu_rect)
+            self.ui.screen.blit(pygame.transform.rotate(self.ui.arrow_default, 180), self.back_to_menu_rect)

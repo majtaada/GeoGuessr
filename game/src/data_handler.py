@@ -64,6 +64,8 @@ class DataHandler:
         data2['country'] = data2['country'].replace(self.country_mapping)
         datamerged = pd.merge(data1, data2, left_on='Country', right_on='country', how='outer')
         datamerged = datamerged.drop('country', axis='columns')
+        datamerged.loc[datamerged['region'] == "Australia and New Zealand", ['region']] = 'Oceania'
+        datamerged.loc[datamerged['region'] == "South-Eastern Asia", ['region']] = 'South-East Asia'
         datamerged['Abbreviation'] = datamerged['Abbreviation'].fillna(
             datamerged['Country'].map(self.country_abbreviations))
         datamerged.loc[datamerged['Country'] == 'Vatican City', ['capital_city', 'region']] = datamerged.loc[

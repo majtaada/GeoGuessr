@@ -4,8 +4,8 @@ import resources.constants as cst
 
 
 class LoadScreen:
-    texts = ["Collect most points to win!", "Question after using hint", "is worth half the points ",
-             "Press arrow to continue"]
+    texts = ["Collect most points to win!", "Question after using hint", "  is worth half the points ",
+             "Press arrow to continue..."]
 
     def __init__(self, ui):
         self.ui = ui
@@ -43,5 +43,8 @@ class LoadScreen:
             font = pygame.font.Font('resources/monof55.ttf', 50)
             text = font.render(self.texts[i], True, "#000000")
             text_rect = text.get_rect()
-            text_rect.center = (self.ui.width / 2, self.ui.height / 2 - 125 + i * cst.TEXT_INPUT_HEIGHT)
+            if i == 2:
+                text_rect.center = (self.ui.width / 2, self.ui.height / 2 - 125 + i * cst.TEXT_INPUT_HEIGHT - 25)
+            else:
+                text_rect.center = (self.ui.width / 2, self.ui.height / 2 - 125 + i * cst.TEXT_INPUT_HEIGHT)
             self.ui.screen.blit(text, text_rect)
