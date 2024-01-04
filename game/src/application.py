@@ -1,11 +1,11 @@
 """Main class of the game."""
-from .main_menu import MainMenu
 import pygame
+from .main_menu import MainMenu
 
 
 def create_file():
     """Create file if it does not exist."""
-    with open("game/data/high_scores/high_scores.txt", "a") as _:
+    with open("game/data/high_scores/high_scores.txt", "a", encoding="utf-8") as _:
         pass
 
 
@@ -32,12 +32,11 @@ class UI:
         self.screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("GeoQuizzr")
         self.clock = pygame.time.Clock()
-        self.state = "main_menu"
+        self.width = self.screen.get_width()
+        self.height = self.screen.get_height()
         self.font = pygame.font.Font('resources/monof55.ttf', 35)
         self.background = pygame.image.load('resources/background.jpeg')
         self.logo = pygame.image.load('resources/logo.png')
-        self.width = self.screen.get_width()
-        self.height = self.screen.get_height()
         self.gray_heart = pygame.image.load('resources/heart_gray.png')
         self.red_heart = pygame.image.load('resources/heart_red.png')
         self.arrow_clicked = pygame.image.load('resources/arrow_clicked.png')
@@ -50,3 +49,10 @@ class UI:
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(
             self.logo, ((self.screen.get_width() - self.logo.get_width()) / 2, 0))
+
+    def update_screen(self):
+        """Update screen."""
+        self.clock.tick(60)
+        pygame.display.flip()
+        pygame.display.update()
+        

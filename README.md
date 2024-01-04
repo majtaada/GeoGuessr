@@ -1,3 +1,10 @@
 # Topic of your semestral work
 
 Describe a function of developed application, necessary dependencies (e.g. utilize requirements.txt), how to start it, and last but not least how to run tests from CLI.
+
+# Install dependencies
+!pip install resources/requirements.txt
+# Start application
+!python3 main.py
+# Run tests
+!python3 tests.py

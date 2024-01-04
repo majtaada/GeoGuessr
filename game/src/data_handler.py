@@ -1,7 +1,7 @@
 """Module for handling data."""
+import os
 import pandas as pd
 import pygame
-import os
 
 
 def read_images(path):
@@ -95,7 +95,6 @@ class DataHandler:
         self.data = datamerged
         self.add_images_to_data()
         self.add_scalers_to_data()
-        self.print_data()
 
     def add_scalers_to_data(self):
         """Adds scalers to data"""
@@ -141,10 +140,5 @@ class DataHandler:
         if state == "shapes":
             return self.data[["country", "shapes"]].dropna()
         if state == "all_in_one":
-            return self.data[['country', 'capital',
-                              'flags', 'shapes']].dropna()
-
-    def print_data(self):
-        """Prints data"""
-        with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
-            print(self.data)
+            return self.data[['country', 'capital', 'flags', 'shapes']].dropna()
+        raise ValueError(f"Invalid state: {state}")

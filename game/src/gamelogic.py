@@ -1,8 +1,8 @@
 """This module contains the GameLogic class."""
-import pygame
 import sys
 import random
 import math
+import pygame
 from . import constants as cst
 from .quiz_drawings import QuizDrawings
 from .data_handler import DataHandler
@@ -12,17 +12,18 @@ from .end_screen import EndScreen
 class GameLogic:
     """Class for handling game logic."""
 
+    all_in_one = False
+    changed_mode = False
+    data_handler = DataHandler()
+    modes = ["flags", "capital", "shapes"]
+
     def __init__(self, ui, data, mode):
         """Initialize game logic."""
-        self.options_dict = None
         self.ui = ui
         self.data = data
-        self.data_handler = DataHandler()
         self.mode = mode
-        self.modes = ["flags", "capital", "shapes"]
-        self.all_in_one = False
-        self.changed_mode = False
         self.quiz_draw = QuizDrawings(self.ui)
+
 
     def handle_events(self):
         """Handle events."""
@@ -33,19 +34,23 @@ class GameLogic:
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.quiz_draw.clicked is None:
-                    for i in range(len(button_rects)):
-                        if button_rects[i].collidepoint(mouse):
-                            if self.quiz_draw.correct_answer_index == i:
-                                self.correct_answer()
-                            elif self.quiz_draw.correct_answer_index != i:
-                                self.incorrect_answer()
-                            self.quiz_draw.clicked = i
+                    for i, rect in enumerate(button_rects):
+                        if rect.collidepoint(mouse):
+                            self.collided(i)
 
                     if self.quiz_draw.bulb_rect.collidepoint(mouse):
                         self.set_hint()
                 if self.quiz_draw.arrow_rect.collidepoint(
                         mouse) and self.quiz_draw.clicked is not None:
                     self.next_question()
+
+    def collided(self, i):
+        """Handle collision."""
+        if self.quiz_draw.correct_answer_index == i:
+            self.correct_answer()
+        elif self.quiz_draw.correct_answer_index != i:
+            self.incorrect_answer()
+        self.quiz_draw.clicked = i
 
     def set_hint(self):
         """Set hint"""
@@ -58,7 +63,7 @@ class GameLogic:
         """Reset all variables for next question."""
         self.quiz_draw.clicked = None
         self.quiz_draw.correct_answer_index = None
-        self.quiz_draw.options_dict = None
+        self.quiz_draw.options_dict = {}
         self.quiz_draw.hint = False
         self.changed_mode = False
 
@@ -87,9 +92,7 @@ class GameLogic:
                 self.changed_mode = True
             self.draw()
             self.handle_events()
-            self.ui.clock.tick(60)
-            pygame.display.flip()
-            pygame.display.update()
+            self.ui.update_screen()
         end_screen = EndScreen(self.ui, self.quiz_draw.score)
         end_screen.run()
 
@@ -108,7 +111,7 @@ class GameLogic:
 
     def get_random_options(self):
         """Get random options."""
-        if self.quiz_draw.options_dict is None:
+        if not self.quiz_draw.options_dict:
             options = self.data.sample(n=4, replace=False)
             self.fill_options_dict(options)
             self.quiz_draw.correct_answer_index = random.randint(0, 3)
@@ -126,7 +129,7 @@ class GameLogic:
             self.quiz_draw.draw_hint()
         if self.quiz_draw.clicked is not None:
             self.quiz_draw.draw_next_button()
-        if self.mode == "flags" or self.mode == "shapes":
+        if self.mode in ["flags", "shapes"]:
             self.quiz_draw.draw_image(self.mode)
         if self.mode == "capital":
             self.quiz_draw.draw_text(self.mode)

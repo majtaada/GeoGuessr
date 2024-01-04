@@ -1,3 +1,5 @@
+"""CONSTANTS"""
+
 image_path = "resources/"
 data_path = "game/data/"
 DEFAULT_BUTTON_COLOR = "#90accc"

@@ -29,9 +29,7 @@ class EndScreen:
                     if self.back_to_menu_rect.collidepoint(mouse):
                         return
             self.draw()
-            self.ui.clock.tick(60)
-            pygame.display.flip()
-            pygame.display.update()
+            self.ui.update_screen()
 
     def draw(self):
         """Draw end screen."""

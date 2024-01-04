@@ -39,8 +39,7 @@ class LoadScreen:
                     mouse = pygame.mouse.get_pos()
                     if self.arrow_rect.collidepoint(mouse):
                         return True
-            pygame.display.flip()
-            pygame.display.update()
+            self.ui.update_screen()
 
     def add_arrow(self):
         """Add arrow to continue"""

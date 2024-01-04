@@ -50,9 +50,7 @@ class PlayButton:
             if mode is not None:
                 self.game_modes.run(mode)
             self.draw()
-            self.ui.clock.tick(60)
-            pygame.display.flip()
-            pygame.display.update()
+            self.ui.update_screen()
 
     def handle_events(self):
         """Handle events"""
@@ -83,6 +81,7 @@ class PlayButton:
                 if self.ui.width / 2 - 100 <= mouse[0] <= self.ui.width / 2 + \
                         100 and self.ui.height / 5 + 400 <= mouse[1] <= self.ui.height / 5 + 480:
                     return "main_menu"
+            return None
 
     def draw_buttons(self):
         """Draw buttons"""

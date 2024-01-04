@@ -1,6 +1,6 @@
 """Main menu module"""
-import pygame
 import sys
+import pygame
 from .highscore import HighScore
 from .play_button import PlayButton
 from .nickname_getter import GameModes
@@ -38,20 +38,20 @@ class MainMenu:
         mouse = pygame.mouse.get_pos()
         rectangles = self.button_rects
         texts = ["Play", "High Scores", "Quit"]
-        for i in range(len(rectangles)):
-            if rectangles[i].collidepoint(mouse):
+        for i, rect in enumerate(rectangles):
+            if rect.collidepoint(mouse):
                 pygame.draw.rect(
                     self.ui.screen,
                     cst.PRESSED_BUTTON_COLOR,
-                    rectangles[i])
+                    rect)
             else:
                 pygame.draw.rect(
                     self.ui.screen,
                     cst.DEFAULT_BUTTON_COLOR,
-                    rectangles[i])
+                    rect)
             text = self.ui.font.render(texts[i], True, "#000000")
             text_rect = text.get_rect()
-            text_rect.center = rectangles[i].center
+            text_rect.center = rect.center
             self.ui.screen.blit(text, text_rect)
 
     def draw(self):
@@ -87,6 +87,4 @@ class MainMenu:
                 self.mode = None
             self.handle_events()
             self.draw()
-            self.ui.clock.tick(60)
-            pygame.display.flip()
-            pygame.display.update()
+            self.ui.update_screen()

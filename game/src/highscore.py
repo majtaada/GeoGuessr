@@ -1,8 +1,8 @@
 """High score module"""
-import pygame
 import sys
-from . import constants as cst
+import pygame
 import pandas as pd
+from . import constants as cst
 
 
 class HighScore:
@@ -26,9 +26,7 @@ class HighScore:
             if self.handle_events():
                 return
             self.draw()
-            self.ui.clock.tick(60)
-            pygame.display.flip()
-            pygame.display.update()
+            self.ui.update_screen()
 
     def handle_events(self):
         """Handle events"""
@@ -38,7 +36,7 @@ class HighScore:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if self.back_to_menu_rect.collidepoint(mouse):
-                    return True
+                    return
 
     def draw(self):
         """Draw high score"""
@@ -88,7 +86,7 @@ class HighScore:
 
     def get_high_scores(self):
         """Get high scores for visualization"""
-        with open("game/data/high_scores/high_scores.txt", "r") as file:
+        with open("game/data/high_scores/high_scores.txt", "r", encoding="utf-8") as file:
             self.data = file.readlines()
         self.data = [line.strip().split() for line in self.data]
         self.data = pd.DataFrame(
