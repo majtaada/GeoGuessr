@@ -1,16 +1,2 @@
-Shapes pes 238
-Flags adam 4824
-AllInOne dadsa 682
-Capital Adam 160
-Flags Adam 212
-Flags Adam 461
-Shapes asda 59
-Flags majta 68
-Capital majta 278
-Shapes majta 0
-AllInOne majta 337
-AllInOne majo 1051
-Capital dasdasdaffasfasgasgasgasggs 0
-Capital dasdasdaffasfasgasgasgasggs 139
-Capital dasdasd 0
-Flags dasds 158
+Flags adam 8392
+
