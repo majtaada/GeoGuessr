@@ -36,7 +36,8 @@ class HighScore:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if self.back_to_menu_rect.collidepoint(mouse):
-                    return
+                    return True
+        return False
 
     def draw(self):
         """Draw high score"""
