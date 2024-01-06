@@ -1,9 +1,9 @@
 # Topic of your semestral work
 
-Describe a function of developed application, necessary dependencies (e.g. utilize requirements.txt), how to start it, and last but not least how to run tests from CLI.
+GeoQuizzr is a pygame application that allows you to play a quiz game about geography. 
 
 # Install dependencies
-!pip install resources/requirements.txt
+!pip install -r resources/requirements.txt
 # Start application
 !python3 main.py
 # Run tests
